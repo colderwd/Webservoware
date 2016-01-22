@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>调试页面</title>
+    <script>
+ 		function onSubmit() {
+	        var input = document.getElementById("sendData");            
+	        socket.send(input.value);
+	        input.value = "";
+	        input.focus();
+	    }
+    </script>
+</head>
+<body>
+    <label>接收数据：
+    <input name="receieved" type="text" id="txtText" value=""/>
+    </label>
+    <form onsubmit="onSubmit(); return false;">
+	<input type=text id=sendData value=""><input type=submit name=send value="发送">
+
+	</form>
+
+    <script type="text/javascript" charset="utf-8">
+        var socket = new WebSocket("ws://"+document.domain+":8080");
+        var receieved_data = document.getElementById('txtText');
+        socket.onmessage = function(data)
+        {
+            receieved_data.value = data.data;
+        }
+    </script>
+</body>
+</html>
